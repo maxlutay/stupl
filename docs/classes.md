@@ -40,11 +40,7 @@
         
         else
         if( like(somebody) )
-          if( somebody.sex == this.sex )
-            friends_list.push_left(somebody)
-          else
-            mate_list.push_right(somebody)
-          end
+            //
         end
 
       end //for
