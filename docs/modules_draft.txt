@@ -1,0 +1,137 @@
+
+
+module Math
+
+
+const PI:float = 3.14
+const E:float = 2.72
+
+
+
+
+
+type Float is
+class 
+    
+
+
+
+
+
+type Complex is
+class
+    real:float = .default() 
+    # ".deafult()" mean "init variable with value of <type>.default()"
+    
+    imaginary:float = .default()
+
+    fn .real.get() -> :float 
+        return .real
+    end
+
+    fn .real.set(@value_to_set: float) -> :float
+        return (.real = @value_to_set)
+    end
+
+
+
+    fn .imaginary.get() -> :float
+        return .imaginary
+    end
+
+    fn .imaginary.set(@value_to_set: float) -> :float
+        return (.imaginary = @value_to_set)
+    end
+
+end #Complex
+
+
+
+
+
+
+type Complex is
+class
+    %public(real:float)% = .default() 
+    
+    imaginary:float = .default()
+
+
+    fn .imaginary.get() -> :float
+        return .imaginary
+    end
+
+    fn .imaginary.set(@value_to_set: float) -> :float
+        return (.imaginary = @value_to_set)
+    end
+
+end #Complex
+
+
+
+
+end #Math
+
+
+
+
+module AirplaneSystem
+
+
+
+type Person is
+class 
+
+    %public[
+        name:String = "<unknown>"
+        photo: union{Photo | Nothing} = .default()
+        place: AirplanePlace
+    ]%
+
+    date_of_birth: union{Date | Nothing} = Nothing.default()
+
+
+
+
+end #Person
+
+
+
+type Airplane{N_of_engines, N_of_fuel_tanks} is
+class 
+
+    engines:tuple{N_of_fuel_tanks, Engine} = .deafult()
+
+
+    fuel_tanks: tuple{N_of_fuel_tanks, FuelTank} = .deafult()
+
+    wing
+
+
+
+end #Airplane
+
+
+end #AirplaneSystem
+
+
+
+
+module ModuleName
+
+
+
+
+module InnerModuleName
+
+end InnerModuleName
+
+
+
+
+
+end #modulename #is optional, cast warning, best practices to specify modulename
+
+
+
+

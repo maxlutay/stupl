@@ -1,0 +1,148 @@
+module AirplaneSystem
+
+
+
+
+
+fn main()
+
+
+
+
+    myplane:Airplane = (fn () -> :Airplane
+        wheelslayout = WheelsLayout();
+        mylandingsystem = WheelsLandingSystem(wheelslayout);
+        myengine = EngineSystem();
+        myfilghtcontrols = FlightControlSystem();
+        pilotingcontrols = PilotControlsSystem.Remote_Piloting_System() ;
+
+        return Airplane.default(mylandingsystem, myengine, myfilghtcontrols, pilotingcontrols);
+
+    end)()
+
+
+end
+
+
+
+
+
+
+module Math 
+
+end 
+
+
+type Engine is
+class
+
+end
+
+
+type Wheel is
+class
+
+end
+
+
+
+type Ailerone is
+class
+
+end
+
+
+type Rudder is
+class
+
+end
+
+
+
+
+type Pair{ ElementType } is
+class < Tuple{count=2,ElementType}
+    fn .left() -> :ElementType 
+        return Tuple.first()
+    end
+
+    fn .right() -> :ElementType
+        return Tuple.last()
+    end
+end
+
+
+type Tuple { count:PositiveInteger, element_type:Any } is
+class
+    fn .default() -> :Tuple
+    
+    end
+end
+
+
+
+type WheelGroup{n_of_wheels} is Tuple{count=n_of_wheels, Wheel} 
+
+
+type ControlWheel is
+class < Control
+end
+
+type ThrustControl is
+class < Control
+end
+
+
+
+
+
+type PilotControlsSystem is
+union 
+Direct_Piloting_System | Remote_Piloting_System
+end
+
+type FlightControlSystem is
+class
+end
+
+type EngineSystem is
+class
+end
+
+type LandingSystem is
+class
+
+end
+
+
+type Airplane{ LandingSystemType, EngineSystemType, FlightControlSystemType,PilotControlsSystemType } is
+class
+    engines: EngineSystemType
+    landing_system : LandingSystemType
+    flight_system  : FlightControlSystemType
+    
+    piloting_system : PilotControlsSystemType 
+
+
+
+    this:Ptr{Airplane}
+
+    fn .default() -> :Airplane
+    end
+
+    fn .power_on() -> :Nothing
+    end
+
+    fn .manual_piloting() -> :Nothing
+    end
+
+    fn .AI_piloting() -> :Nothing
+    end
+
+end
+
+
+
+
+
+end

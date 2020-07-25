@@ -1,0 +1,10 @@
+module GUI
+
+
+
+class Pair {T}
+    x, y : T = T.default
+end
+
+
+end #GUI

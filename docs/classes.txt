@@ -1,0 +1,38 @@
+module System
+
+import Native
+#import Native : Address
+
+
+class OBJECT
+    this : ref Object
+
+    fn default()
+        this.allocate_on_stack_for(this.TYPE)
+        //this.allocate_on_stack_for(Object)
+    end
+
+    fn allocate_on_stack_for ( @type: TYPEOBJ ) -> ref Native::Address
+        return Native.allocate(@type.SIZE)
+    end
+
+    fn delete_from_stack () 
+        Native.deallocate(this)
+    end
+
+
+
+    fn new() -> 
+        %error< heap allocator is not defined for OBJECT >%
+    end
+
+    fn delete()
+        %error< heap deallocator is not defined for OBJECT>%
+    end
+
+
+
+
+
+
+

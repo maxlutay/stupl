@@ -1,0 +1,99 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+globaldefined: [
+default_block_types : [
+    module,
+    class,
+    macros,
+    function,
+]
+
+    ,{
+        type: module,
+        name: "std",
+        children: [
+
+        ]
+    }
+]
+
+
+BLOCK_TYPE = macros | module | class | function | anonymous
+PROPERTY_TYPE =  GENERIC | String
+NAME = String | anonymous
+
+
+GENERIC_DESCRIPTION = {
+    name: 
+    restrict: {
+        allow: Array [type],
+        deny: Array [type],
+        conditions: Array [conditions]
+    }
+}
+
+BLOCK = {
+    type: BLOCK_TYPE,
+    name: NAME,
+    children: Array<BLOCK>,
+    generics: const Array<TYPE>,
+}
+
+userdefined: [
+    ,{
+        type: module,
+        name: "GUI",
+        children: [
+            {
+                type: macros,
+                name    
+            },
+            {
+                type: class,
+                name: "NumberPair",
+                generics: [
+                    {
+                        name: "NT",
+                        allow: [ "Number" ],
+                        constructors:  
+                    }
+                ]  
+                extends: [],
+                properties: [
+                    {
+                        name: "x",
+                        type:  generics[0],
+                        init: functions[0],
+                        finalize: default,
+                        get: true,
+                        set: false,
+                    },
+                    {
+                        name: "y",
+                        type: generics[0],
+                        init: function[0],
+
+                    }
+                ]
+
+            }
+        ]
+
+    }
+]

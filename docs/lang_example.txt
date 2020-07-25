@@ -1,0 +1,89 @@
+
+//only 1 line comments, use for emergency cases, self-documenting code 
+
+module GUI
+//module system
+// private, public, protected ?
+
+
+%macro  generic{NT}.restrict  to { Number } default { Int32 } %
+//all macroses run before compilation 
+
+
+
+type NumberPair { NT } is
+class
+//generics
+public
+    x, y : NT = .default()
+
+
+//default values for generic properties
+
+end
+
+
+type Point{NT} is class < NumberPair{NT}
+end
+
+type Vector{NT} is class < NumberPair{NT}
+end
+
+
+
+type Rectangle {NT} is
+class
+public
+    left_top_corner : Point{NT} = .default()
+    right_bottom_corner: Point{NT} = .default()
+    size: Vector{NT} = .default()
+
+end
+
+//  todo : default specifier spec
+type Window is
+class
+    
+    title: String const = "<default>"
+    boundaries: Rectangle{Int32} = .new.default()
+
+    fn init()
+    end
+
+    fn init( @title : String, @boundaries : Rectangle{NT} )
+        title = @title
+        boundaries = @boundaries
+    end
+
+end
+
+
+type Predicate is
+fn{T}  ( @... : {T} ) -> bool
+
+type PredicateFactory is
+fn (   )
+
+
+Predicate{Window} isEmpty(@window) is
+    
+end
+
+
+
+
+type Coercion is 
+fn{T} convert(@what : Any, @to: Any{T} )
+end
+
+
+
+
+
+
+
+
+
+
+
+
