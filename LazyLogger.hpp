@@ -21,15 +21,15 @@ class LazyLogger : public Logger
 
   template <typename T>
   std::enable_if<std::is_convertible_v<T, std::string> or
-                 std::is_constructible_v<std::string, T>> virtual LazyLogger&
-      append(std::initializer_list<T>) override;
+                 std::is_constructible_v<std::string, T>> LazyLogger&
+      append(std::initializer_list<T>) ;
 
   LazyLogger& log();
 
   template <typename T>
   std::enable_if<std::is_convertible_v<T, std::string> or
-                 std::is_constructible_v<std::string, T>> virtual LazyLogger&
-      log(std::initializer_list<T>) override;
+                 std::is_constructible_v<std::string, T>>  LazyLogger&
+      log(std::initializer_list<T>) ;
 };
 
 template <typename T>
@@ -52,7 +52,7 @@ std::enable_if<std::is_convertible_v<T, std::string> or
 
 LazyLogger& LazyLogger::log() {
   auto s = accumulator.str();
-  accumulator.clear();
+  accumulator.str("");
   for (auto* stream : to) {
     *stream << s;
   };

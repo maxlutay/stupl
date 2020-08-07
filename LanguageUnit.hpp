@@ -23,5 +23,10 @@ class LanguageUnit : public Serializable {
     return result;
   };
 
+
+  virtual operator std::string() const {
+    return get_as_string();
+  };
+
   virtual ~LanguageUnit() = default;
 };
