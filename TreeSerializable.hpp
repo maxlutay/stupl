@@ -11,7 +11,7 @@
 #include "NodeSerializable.hpp"
 
 template <typename Tdata>
-class TreeSerializable : public Tree<NodeSerializable<Tdata>>, Serializable {
+class TreeSerializable : public Tree<NodeSerializable<Tdata>>, public Serializable {
 public:
 
   using Tree<NodeSerializable<Tdata>>::Tree;//inheriting constructors

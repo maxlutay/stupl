@@ -30,10 +30,8 @@ class LazyLogger : private Logger
 
 template <typename... Ts>
 LazyLogger& LazyLogger::append(Ts... message) {
-  static_assert(
-      (... and (is_to_stream_writable_v<decltype(buffer_from), Ts>)),
-      "custom");
-
+  static_assert((... and (is_to_stream_writable_v<decltype(buffer_from), Ts>)),
+                "custom");
 
   ((buffer_from << message), ...);
   return *this;

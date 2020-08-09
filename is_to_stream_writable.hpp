@@ -13,4 +13,4 @@ struct is_to_stream_writable<
     : std::true_type {};
 
 
-template <typename S, typename T> inline constexpr bool is_to_stream_writable_v =  is_to_stream_writable<S,T>::value; 
+template <typename S, typename T> constexpr bool is_to_stream_writable_v =  is_to_stream_writable<S,T>::value; 

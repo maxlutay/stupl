@@ -11,7 +11,7 @@ template <typename Tnode>
 class Tree : public Testable {
  public:
  
-  using Tnode = Tnode;
+  using Type_of_node = Tnode;
 
   const std::unique_ptr<Tnode> root;
   virtual bool test_callback() = 0;

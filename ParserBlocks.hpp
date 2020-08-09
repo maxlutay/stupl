@@ -3,14 +3,16 @@
 #include <fstream>
 #include "SyntaxTree.hpp"
 #include "LineNumber.hpp"
-#include "./LanguageModuleUnit.hpp"
-
+#include "LanguageModuleUnit.hpp"
+#include "LazyLogger.hpp"
 
 #include <array>
 #include <tuple>
 #include <regex>
-#include <istream>
+#include <ostream>
+#include <fstream>
 #include <map>
+#include <algorithm>
 
 class ParserBlocks {
  private:
@@ -19,21 +21,21 @@ class ParserBlocks {
   //   std::string filename;
   // };
 
-  //std::vector<LineNumber> line_number_stack;  // for multiple file indexing
+  // std::vector<LineNumber> line_number_stack;  // for multiple file indexing
 
   std::map<std::string, std::regex> matchers;
 
-  LazyLogger logger{std::cout};
+  std::ofstream ofs_logs{"logs/testresultsn.log"};
+  LazyLogger logger{&std::cout, &ofs_logs};
 
  public:
   ParserBlocks();
-  ParserBlocks(const ParserBlocks&) = default;
+  // ParserBlocks(const ParserBlocks&) = default;
 
   std::unique_ptr<SyntaxTree> operator()(std::istream&);
 
  private:
-  std::vector<const std::pair<LineNumber, LineNumber>> match_start_end_lines(
-      std::istream&) const;
+  auto match_start_end_lines(std::istream&);
 };
 
 ParserBlocks::ParserBlocks() {
@@ -45,51 +47,94 @@ ParserBlocks::ParserBlocks() {
 
   matchers.emplace("end", "^\\s*end\\s*;?.*");
 
-  //line_number_stack.push_back(-1);
+  // line_number_stack.push_back(-1);
 };
 
-auto ParserBlocks::match_start_end_lines(std::istream& program) const {
-  std::vector<const std::pair<LineNumber, LineNumber>> result{};
+auto ParserBlocks::match_start_end_lines(std::istream& program) {
+  std::vector<std::pair<LineNumber, LineNumber>> s_e_pairs;
+  std::vector<LanguageUnit> result;
+
 
   std::string current_line;
 
-  LineNumber counter_line = 0;
+  LineNumber counter = 0;
 
   std::vector<LineNumber> start_lines;
 
   while (std::getline(program, current_line)) {
-    bool start_match_flag = std::regex_match(current_line, matchers["module"]);
-    start_match_flag |= std::regex_match(current_line, matchers["function"]);
-    start_match_flag |= std::regex_match(current_line, matchers["type"]);
+    counter++;  // if headline index is 1
+
+    bool start_match_flag = std::any_of(
+        matchers.cbegin(), matchers.cend(), [&current_line](auto& matcher) -> bool {
+          return ("end" != matcher.first) &&
+                 std::regex_match(current_line, matcher.second);
+        });
 
     if (start_match_flag) {
-      start_lines.push_back(counter);
+      s_e_pairs.emplace_back(counter,EmptyLineNumber);
     };
 
     bool end_match_flag = std::regex_match(current_line, matchers["end"]);
 
     if (end_match_flag) {
-      result.emplace_back(start_lines.back(), counter_line);
+      if(s_e_pairs.empty()){
+        logger.append("'end' on line ", counter, " does not have corresponding declaration\n");
+      };
+
+
+
+
+      if(s_e_pairs.back().second == EmptyLineNumber) {
+        s_e_pairs.back().second = counter;
+      };
+
+      s_e_pairs.emplace_back(start_lines.back(), counter);
       start_lines.pop_back();
+
+
+      //new
+      if(EmptyLineNumber == s_e_pairs.back().second){
+        s_e_pairs.back().second = counter;
+      } else {
+        s_e_pairs.emplace_back()
+      };
+
     };
 
-    counter++;
+    // counter++;//if headline index is 0
   };
 
-  if(not start_lines.empty()) {
-      result.emplace_back(start_lines.back(), counter);
-      start_lines.pop_back();
-      logger.append("no matching end for declaration on line")
-      .append(std::to_string(counter))
+  while (not start_lines.empty()) {
+    logger.append("no matching end for declaration on line ",
+                  std::to_string(start_lines.back()), ", end expected on line ",
+                  counter, "\n");
 
+    s_e_pairs.emplace_back(start_lines.back(), counter);
+    start_lines.pop_back();
   };
 
+  return result;
 };
 
 std::unique_ptr<SyntaxTree> ParserBlocks::operator()(std::istream& program) {
-  using NodeT = SyntaxTree::Tnode;
+  using NodeT = SyntaxTree::Type_of_node;
   auto tree = std::make_unique<SyntaxTree>(new NodeT{nullptr});
 
+  auto root = tree->root.get();
+  auto parent = root;
+
+  auto s_e_lines = match_start_end_lines(program);
+
+  auto treebuilder = [&root, &parent, &matchers = matchers](const auto& s_e_line) {
+    std::smatch matched;
+    std::regex_match(current_line, matched, matchers["module_start"]);
+
+    std::string name_matched = matched.str(1);
+  };
+
+  std::for_each(s_e_lines.cbegin(), s_e_lines.cend(), treebuilder);
+
+  /*
   std::string current_line;
 
   auto root = tree->root.get();
@@ -143,5 +188,8 @@ std::unique_ptr<SyntaxTree> ParserBlocks::operator()(std::istream& program) {
     std::cout << "OK\n";
   };
 
+  */
+
+  logger.log();
   return tree;
 };

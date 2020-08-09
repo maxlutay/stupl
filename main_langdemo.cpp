@@ -21,14 +21,10 @@ int main() {
 
 
 
-  auto f = std::fstream{filename};
-
-
-  std::istream& o = f;
-
+  auto f = std::ifstream{filename};
   auto blocks_tree = parser_from_file_to_blocks(f);
 
-  std::cout << blocks_tree->get_as_string();
+  std::cout << *blocks_tree;
 
 /*
   std::fstream file{filename};
