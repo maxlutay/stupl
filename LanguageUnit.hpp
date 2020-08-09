@@ -4,6 +4,7 @@
 #include "./LineNumber.hpp"
 
 #include <string>
+#include <iostream> //class << global operator overloading
 
 class LanguageUnit : public Serializable {
  private:
@@ -29,4 +30,11 @@ class LanguageUnit : public Serializable {
   };
 
   virtual ~LanguageUnit() = default;
+};
+
+
+
+std::ostream& operator<<(std::ostream& os, const LanguageUnit& lu){
+  os << lu.get_as_string();
+  return os;
 };

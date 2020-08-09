@@ -2,15 +2,14 @@
 
 #include "Logger.hpp"
 #include "Testable.hpp"
+#include "is_to_stream_writable.hpp"
 
 #include <sstream>
 
-class LazyLogger : public Logger
-//, Testable
+class LazyLogger : private Logger
+//, public Testable
 {
  private:
-  std::stringstream accumulator;
-
   // virtual bool test_callback() override;
 
  protected:
@@ -19,42 +18,34 @@ class LazyLogger : public Logger
 
   virtual ~LazyLogger() = default;
 
-  template <typename T>
-  std::enable_if<std::is_convertible_v<T, std::string> or
-                 std::is_constructible_v<std::string, T>> LazyLogger&
-      append(std::initializer_list<T>) ;
+  template <typename... Ts>
+  LazyLogger& append(Ts...);
 
+  template <typename... Ts>
   LazyLogger& log();
 
-  template <typename T>
-  std::enable_if<std::is_convertible_v<T, std::string> or
-                 std::is_constructible_v<std::string, T>>  LazyLogger&
-      log(std::initializer_list<T>) ;
+  template <typename... Ts>
+  LazyLogger& log(Ts...);
 };
 
-template <typename T>
-std::enable_if<std::is_convertible_v<T, std::string> or
-               std::is_constructible_v<std::string, T>>
-    LazyLogger& LazyLogger::append(std::initializer_list<T> messages) {
-  for (auto& m : messages) {
-    accumulator << std::to_string(m);
-  };
+template <typename... Ts>
+LazyLogger& LazyLogger::append(Ts... message) {
+  static_assert(
+      (... and (is_to_stream_writable_v<decltype(buffer_from), Ts>)),
+      "custom");
+
+
+  ((buffer_from << message), ...);
   return *this;
 };
 
-template <typename T>
-std::enable_if<std::is_convertible_v<T, std::string> or
-               std::is_constructible_v<std::string, T>>
-    LazyLogger& LazyLogger::log(std::initializer_list<T> messages) {
-  append(messages);
+template <typename... Ts>
+LazyLogger& LazyLogger::log(Ts... message) {
+  (append(message), ...);
   return log();
 };
-
+template <typename... Ts>
 LazyLogger& LazyLogger::log() {
-  auto s = accumulator.str();
-  accumulator.str("");
-  for (auto* stream : to) {
-    *stream << s;
-  };
+  Logger::log();
   return *this;
 };
