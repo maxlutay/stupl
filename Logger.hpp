@@ -50,5 +50,16 @@ class Logger {
 
   };
 
+
+  template <typename ...Tostream>
+  Logger& add_ouput_streams(Tostream*... output_streams) {
+    static_assert( (... and (std::is_base_of_v<std::ostream, Tostream>) ) , "custom type constraints");
+
+    ( (to.push_back(output_streams) ) , ... );
+  return *this;
+  };
+
+
+
   virtual ~Logger() = default;
 };

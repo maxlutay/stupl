@@ -54,7 +54,7 @@ class LineNumber {
     return tmp;
   }
 
-  LineNumber& operator+=(const LineNumber& l) { value += l.value; };
+  LineNumber& operator+=(const LineNumber& l) { value += l.value; return *this; };
 
   friend LineNumber operator+(LineNumber ln1, const LineNumber& ln2) {
     return ln1 += ln2;
@@ -70,7 +70,7 @@ struct EmptyLineNumber : LineNumber {
   };
 
   bool operator+=(const EmptyLineNumber&) = delete;
-  
+
 
 };
 

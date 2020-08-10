@@ -1,7 +1,7 @@
 
 #include <fstream>
 #include <memory>
-
+#include <utility>
 #include <iostream>
 
 #include "SyntaxTree.hpp"
@@ -16,13 +16,17 @@ int main() {
 
 
 
-  ParserBlocks parser_from_file_to_blocks;
 
 
+  std::ofstream ofs_logs{"logs/testresultsn.log"};
+  auto logger = std::make_shared<LazyLogger>(&std::cout, &ofs_logs);
 
 
-  auto f = std::ifstream{filename};
-  auto blocks_tree = parser_from_file_to_blocks(f);
+  ParserBlocks parser_from_file_to_blocks{logger};
+
+
+  auto source_program = std::ifstream{filename};
+  auto blocks_tree = parser_from_file_to_blocks(source_program);
 
   std::cout << *blocks_tree;
 
