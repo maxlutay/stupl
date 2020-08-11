@@ -28,6 +28,7 @@ class ChainRegex {
 
   ChainRegex(std::regex r){};
 
+
   template <typename Ts...>
   ChainRegex(Ts... templates) {
     static_assert(true);  // todo check Ts... either char* or string or group
