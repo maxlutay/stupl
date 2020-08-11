@@ -6,7 +6,6 @@
 #include "LazyLogger.hpp"
 #include "Matchers.hpp"
 
-
 #include <fstream>
 
 #include <regex>
@@ -27,9 +26,8 @@ class ParserBlocks {
 
   const std::shared_ptr<LazyLogger> logger;
 
-
  public:
-  ParserBlocks( std::shared_ptr<LazyLogger> ll ) : logger(std::move(ll) ) {};
+  ParserBlocks(std::shared_ptr<LazyLogger> ll) : logger(std::move(ll)){};
   // ParserBlocks(const ParserBlocks&) = default;
 
   std::unique_ptr<SyntaxTree> operator()(std::istream&);
@@ -37,8 +35,6 @@ class ParserBlocks {
  private:
   auto match_start_end_lines(std::istream&);
 };
-
-
 
 auto ParserBlocks::match_start_end_lines(std::istream& program) {
   std::vector<std::pair<LineNumber, LineNumber>> s_e_pairs;
@@ -55,50 +51,51 @@ auto ParserBlocks::match_start_end_lines(std::istream& program) {
 
     // todo: implement innerfirst end policy
 
-    bool start_match_flag =
-        std::any_of(matchers.cbegin(), matchers.cend(),
-                    [&current_line](auto& matcher) -> bool {
-                      return ("end" != matcher.first) &&
-                             std::regex_match(current_line, matcher.second);
-                    });
+    //   bool start_match_flag =
+    //       std::any_of(matchers.cbegin(), matchers.cend(),
+    //                   [&current_line](auto& matcher) -> bool {
+    //                     return ("end" != matcher.first) &&
+    //                            std::regex_match(current_line,
+    //                            matcher.second);
+    //                   });
 
-    if (start_match_flag) {
-      s_e_pairs.emplace_back(counter, EmptyLineNumber);
-    };
+    //   if (start_match_flag) {
+    //     s_e_pairs.emplace_back(counter, EmptyLineNumber);
+    //   };
 
-    bool end_match_flag = std::regex_match(current_line, matchers["end"]);
+    //   bool end_match_flag = std::regex_match(current_line, matchers["end"]);
 
-    if (end_match_flag) {
-      if (s_e_pairs.empty()) {
-        logger->append("'end' on line ", counter,
-                      " does not have corresponding declaration\n");
-      };
+    //   if (end_match_flag) {
+    //     if (s_e_pairs.empty()) {
+    //       logger->append("'end' on line ", counter,
+    //                     " does not have corresponding declaration\n");
+    //     };
 
-      if (s_e_pairs.back().second == EmptyLineNumber) {
-        s_e_pairs.back().second = counter;
-      };
+    //     if (s_e_pairs.back().second == EmptyLineNumber) {
+    //       s_e_pairs.back().second = counter;
+    //     };
 
-      s_e_pairs.emplace_back(start_lines.back(), counter);
-      start_lines.pop_back();
+    //     s_e_pairs.emplace_back(start_lines.back(), counter);
+    //     start_lines.pop_back();
 
-      // new
-      if (EmptyLineNumber == s_e_pairs.back().second) {
-        s_e_pairs.back().second = counter;
-      } else {
-        s_e_pairs.emplace_back()
-      };
-    };
+    //     // new
+    //     if (EmptyLineNumber == s_e_pairs.back().second) {
+    //       s_e_pairs.back().second = counter;
+    //     } else {
+    //       s_e_pairs.emplace_back()
+    //     };
+    //   };
 
-    // counter++;//if headline index is 0
-  };
+    //   // counter++;//if headline index is 0
+    // };
 
-  while (not start_lines.empty()) {
-    logger->append("no matching end for declaration on line ",
-                  std::to_string(start_lines.back()), ", end expected on line ",
-                  counter, "\n");
+    // while (not start_lines.empty()) {
+    //   logger->append("no matching end for declaration on line ",
+    //                 std::to_string(start_lines.back()), ", end expected on
+    //                 line ", counter, "\n");
 
-    s_e_pairs.emplace_back(start_lines.back(), counter);
-    start_lines.pop_back();
+    //   s_e_pairs.emplace_back(start_lines.back(), counter);
+    //   start_lines.pop_back();
   };
 
   return result;
@@ -111,17 +108,17 @@ std::unique_ptr<SyntaxTree> ParserBlocks::operator()(std::istream& program) {
   auto root = tree->root.get();
   auto parent = root;
 
-  auto s_e_lines = match_start_end_lines(program);
+  // auto s_e_lines = match_start_end_lines(program);
 
-  auto treebuilder = [&root, &parent,
-                      &matchers = matchers](const auto& s_e_line) {
-    std::smatch matched;
-    std::regex_match(current_line, matched, matchers["module_start"]);
+  // auto treebuilder = [&root, &parent,
+  //                     &matchers = matchers](const auto& s_e_line) {
+  //   std::smatch matched;
+  //   std::regex_match(current_line, matched, matchers["module_start"]);
 
-    std::string name_matched = matched.str(1);
-  };
+  //   std::string name_matched = matched.str(1);
+  // };
 
-  std::for_each(s_e_lines.cbegin(), s_e_lines.cend(), treebuilder);
+  // std::for_each(s_e_lines.cbegin(), s_e_lines.cend(), treebuilder);
 
   /*
   std::string current_line;

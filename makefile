@@ -16,15 +16,16 @@ endif
 EXECUTABLE_FORMAT_PREPEND=.$(PATH_SEPARATOR)
 
 
+
 MAIN_DIR=
-ifeq ( $(MAIN_DIR), "")
+ifndef MAIN_DIR
 	MAIN_DIR=.
 endif
-EXECUTABLE_MAIN_PATH=$(MAIN_DIR)$(PATH_SEPARATOR)main_langdemo$(EXECUTABLE_FORMAT_APPEND)
+EXECUTABLE_MAIN_PATH=$(MAIN_DIR)$(PATH_SEPARATOR)compiler$(EXECUTABLE_FORMAT_APPEND)
 
 
 PROBLEM_DIR=test
-ifeq ( $(PROBLEM_DIR),"" )
+ifndef PROBLEM_DIR
 	PROBLEM_DIR=.
 endif
 EXECUTABLE_PROBLEM_PATH=$(PROBLEM_DIR)$(PATH_SEPARATOR)problem$(EXECUTABLE_FORMAT_APPEND)
@@ -41,7 +42,7 @@ all: main
 
 
 build_main:
-	$(CC) $(CFLAGS) $(MAIN_DIR)$(PATH_SEPARATOR)main_langdemo.cpp -o $(EXECUTABLE_MAIN_PATH)
+	$(CC) $(CFLAGS) '$(MAIN_DIR)$(PATH_SEPARATOR)compiler.cpp' -o '$(EXECUTABLE_MAIN_PATH)' -I src
 
 
 main: build_main
@@ -49,7 +50,7 @@ main: build_main
 
 
 build_problem:
-	$(CC) $(CFLAGS) $(PROBLEM_DIR)$(PATH_SEPARATOR)problem.cpp -o $(EXECUTABLE_PROBLEM_PATH)
+	$(CC) $(CFLAGS) $(PROBLEM_DIR)$(PATH_SEPARATOR)problem.cpp -o $(EXECUTABLE_PROBLEM_PATH) -I src
 
 problem: build_problem
 	$(EXECUTABLE_PROBLEM_PATH)
