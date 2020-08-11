@@ -5,30 +5,56 @@ EXECUTABLE_FORMAT_APPEND=
 ifeq ($(OS),Windows_NT)
 	SHELL=C:/Windows/System32/cmd.exe
 	EXECUTABLE_FORMAT_APPEND=.exe
-else 
-	EXECUTABLE_FORMAT_PREPEND=./
+	CLEAR_COMMAND=del
+	PATH_SEPARATOR=\\
+
+else
+	CLEAR_COMMAND=rm
+	PATH_SEPARATOR=/
 endif
 
+EXECUTABLE_FORMAT_PREPEND=.$(PATH_SEPARATOR)
 
-EXECUTABLE_MAIN=$(EXECUTABLE_FORMAT_PREPEND)main_langdemo$(EXECUTABLE_FORMAT_APPEND)
-EXECUTABLE_PROBLEM=$(EXECUTABLE_FORMAT_PREPEND)problem$(EXECUTABLE_FORMAT_APPEND)
+
+MAIN_DIR=
+ifeq ( $(MAIN_DIR), "")
+	MAIN_DIR=.
+endif
+EXECUTABLE_MAIN_PATH=$(MAIN_DIR)$(PATH_SEPARATOR)main_langdemo$(EXECUTABLE_FORMAT_APPEND)
+
+
+PROBLEM_DIR=test
+ifeq ( $(PROBLEM_DIR),"" )
+	PROBLEM_DIR=.
+endif
+EXECUTABLE_PROBLEM_PATH=$(PROBLEM_DIR)$(PATH_SEPARATOR)problem$(EXECUTABLE_FORMAT_APPEND)
+
+
+
 
 CC=clang++ 
 CFLAGS=--std=c++17
+
+
 
 all: main
 
 
 build_main:
-	$(CC) $(CFLAGS) main_langdemo.cpp -o $(EXECUTABLE_MAIN)
+	$(CC) $(CFLAGS) $(MAIN_DIR)$(PATH_SEPARATOR)main_langdemo.cpp -o $(EXECUTABLE_MAIN_PATH)
 
 
 main: build_main
-	main_langdemo.exe
+	$(EXECUTABLE_MAIN)
 
 
 build_problem:
-	$(CC) $(CFLAGS) misc/problem.cpp -o $(EXECUTABLE_PROBLEM)
+	$(CC) $(CFLAGS) $(PROBLEM_DIR)$(PATH_SEPARATOR)problem.cpp -o $(EXECUTABLE_PROBLEM_PATH)
 
 problem: build_problem
-	problem.exe
+	$(EXECUTABLE_PROBLEM_PATH)
+
+
+
+remove_problem_executable:
+	$(CLEAR_COMMAND) "$(EXECUTABLE_PROBLEM_PATH)"
