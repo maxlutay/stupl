@@ -4,13 +4,13 @@
 #include <string>
 #include <unordered_map>
 
-#include "ChainRegex.hpp"
+#include "RegexExtendedChainable.hpp"
 
 class Matchers {
  private:
-  // class UmapContainer<std::string, std::pair<ChainRegex,Classifier> >
+  // class UmapContainer<std::string, std::pair<RegexExtendedChainable,Classifier> >
   // matchers;
-  std::unordered_map<std::string, ChainRegex> matchers;
+  std::unordered_map<std::string, RegexExtendedChainable> matchers;
 
   enum class Classifier { START, END, UNCLASSIFIED };
   std::unordered_map<std::string, Classifier> classification;
@@ -20,7 +20,7 @@ class Matchers {
   // uses less memory, but involves consistency management
   // consider using std::map<std::string, std::pair < std::regex, Classifier> >
 
-  ChainRegex get_regex(const std::string& which) { return matchers[which]; };
+  RegexExtendedChainable get_regex(const std::string& which) { return matchers[which]; };
 
  public:
   class Iterator {
@@ -31,8 +31,8 @@ class Matchers {
   } iterator;
 
   Matchers() {
-    using G = ChainRegex::Group;
-    using R = ChainRegex;
+    using G = RegexExtendedChainable::Group;
+    using R = RegexExtendedChainable;
 
     emplace("name of module", "\\w+");
     emplace("module declaration line", R::begin_line, R::space.zero().more(),
@@ -52,7 +52,7 @@ class Matchers {
     emplace("multiline comment */ end", "(.*)\\*/(.*)");
   };
 
-  Matchers& emplace(const std::string& name, const ChainRegex& r) {
+  Matchers& emplace(const std::string& name, const RegexExtendedChainable& r) {
     matchers.emplace(name, r);
     set_classification(name, Classifier::UNCLASSIFIED);
 
@@ -60,7 +60,7 @@ class Matchers {
   };
 
   Matchers& emplace(const std::string& name,
-                    const ChainRegex& r,
+                    const RegexExtendedChainable& r,
                     Classifier classifier) {
     matchers.emplace(name, r);
     set_classification(name, classifier);
@@ -73,5 +73,5 @@ class Matchers {
     return *this;
   };
 
-  ChainRegex operator[](const std::string& which) { return get_regex(which); };
+  RegexExtendedChainable operator[](const std::string& which) { return get_regex(which); };
 };
