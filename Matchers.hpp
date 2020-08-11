@@ -7,24 +7,33 @@
 #include "ChainRegex.hpp"
 
 class Matchers {
+
  private:
   std::unordered_map<std::string, ChainRegex> matchers;
 
   enum class Classifier { START, END, UNCLASSIFIED };
   std::unordered_map<std::string, Classifier> classification;
 
-  // drawback of high memory usage, inverting to <Classifier,
-  // container<std::string> > uses less memory, but involves consistency
-  // management
-  // consider using std::map<std::string,std::tuple or std::pair <std::regex,
-  // Classifier> >
+  // drawback of high memory usage, chnaging to <Classifier,
+  // container<std::string> >
+  // uses less memory, but involves consistency management
+  // consider using std::map<std::string, std::pair < std::regex, Classifier> >
 
+  ChainRegex get_regex(const std::string& which) { return matchers[which]; };
+
+ public:
   class Iterator {
-    
+
+    Iterator& operator*(){
+      return;
+    };
+
+    bool operator==(const Iterator& cmp_to){
+      return (*this)==cmp_to;
+    };
 
   } iterator;
 
- public:
   Matchers() {
     emplace("module", "\\s*module\\s+(\\w+)\\s*;?.*");
     emplace("type", "\\s*type\\s+(\\w+)\\s+is.*");
@@ -34,7 +43,7 @@ class Matchers {
     emplace("end", "^\\s*end\\s*;?.*");
   };
 
-  Matchers& emplace(const std::string& name,const std::regex r) {
+  Matchers& emplace(const std::string& name, const ChainRegex& r) {
     matchers.emplace(name, r);
     set_classification(name, Classifier::UNCLASSIFIED);
 
@@ -51,4 +60,6 @@ class Matchers {
 
   Iterator end() { return iterator.end(); };
   Iterator cend() const { return iterator.cend(); };
+
+  ChainRegex operator[](const std::string& which) { return get_regex(which); };
 };
