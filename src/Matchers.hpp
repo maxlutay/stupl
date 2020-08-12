@@ -8,8 +8,8 @@
 
 class Matchers {
  private:
-  // class UmapContainer<std::string, std::pair<RegexExtendedChainable,Classifier> >
-  // matchers;
+  // class UmapContainer<std::string,
+  // std::pair<RegexExtendedChainable,Classifier> > matchers;
   std::unordered_map<std::string, RegexExtendedChainable> matchers;
 
   enum class Classifier { START, END, UNCLASSIFIED };
@@ -20,7 +20,9 @@ class Matchers {
   // uses less memory, but involves consistency management
   // consider using std::map<std::string, std::pair < std::regex, Classifier> >
 
-  RegexExtendedChainable get_regex(const std::string& which) { return matchers[which]; };
+  RegexExtendedChainable get_regex(const std::string& which) {
+    return matchers[which];
+  };
 
  public:
   class Iterator {
@@ -31,22 +33,61 @@ class Matchers {
   } iterator;
 
   Matchers() {
-    using G = RegexExtendedChainable::Group;
     using R = RegexExtendedChainable;
+    using G = R::Group;
+    using C = R::CaptureGroup;
 
     emplace("name of module", "\\w+");
-    emplace("module declaration line", R::begin_line, R::space.zero().more(),
-            "module", R::space.one().more(), G(get_regex("name of module")),
-            space.zero().more(), R(";").zero().one(), space.zero().more()
-            get_regex("any comment start") );
+    emplace("module declaration line",
+            R::begin_line.then(R::space.zero().more())
+                ..then("module")
+                .then(R::space.one().more())
+                .then(C("name",get_regex("name of module")))
+                .then(R::space.zero().more())
+                .then(R(";").zero().one())
+                .then(R::space.zero().more())
+                .then(get_regex("any comment start")));
 
-    emplace("type", "\\s*type\\s+", G(get_regex("type name")), "\\s+is.*");
-    emplace("string_oneliner",
-            "[\\S\\s]*(\"[\\S\\s]*\")|('[\\S\\s]*')[\\S\\s]*");
-    emplace("function", "\\s*f(n)|(un(ction)?)\\s+(\\w+)\\s*");
-    emplace("end", "^\\s*end\\s*;?.*");
+    emplace("type", R::begin_line.then(R::space.zero().more())
+                        .then("type")
+                        .then(R::space.one().more())
+                        .then(C(get_regex("type name")))
+                        .then(R::space.one().more())
+                        .then("is")
+                        .then(
 
-    emplace("line comment //", "^(.*)//([\S\s]*)$");
+                            R::space.once().more().then(R::any).zero().more())
+                        .zero()
+                        .once()
+                        .then(R::end));
+
+    emplace("string oneliner double quotes", R::any.zero()
+                                                 .more()
+                                                 .then("\"")
+                                                 .then(C(R::any.zero().more()))
+                                                 .then("\"")
+                                                 .then(R::any.zero().more())
+
+    );
+
+    emplace("string oneliner single quotes", R::any.zero()
+                                                 .more()
+                                                 .then("'")
+                                                 .then(C(R::any.zero().more()))
+                                                 .then("'")
+                                                 .then(R::any.zero().more()));
+
+    emplace("end", R::any.zero()
+                       .more()
+                       .then("end")
+                       .then(R::space.zero().more())
+                       .then(R(";").zero().once())
+                       .then(R::any));
+
+    emplace("function", "\\s*f(n)|(un(ction)?)\\s+(\\w+)\\s*");  // todo
+
+    emplace("line comment //", R::any.once().more().then("//").then(
+                                   R::any.once().more) "^(.*)//([\S\s]*)$");
     emplace("line comment #", "^(.*)#([\S\s]*)$");
     emplace("multiline comment /* start", "(.*)/\\*(.*)");
     emplace("multiline comment */ end", "(.*)\\*/(.*)");
@@ -73,5 +114,7 @@ class Matchers {
     return *this;
   };
 
-  RegexExtendedChainable operator[](const std::string& which) { return get_regex(which); };
+  RegexExtendedChainable operator[](const std::string& which) {
+    return get_regex(which);
+  };
 };
