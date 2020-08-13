@@ -7,7 +7,7 @@
 #include "RegexExtendedChainable.hpp"
 
 class Matchers {
- private:
+/* private:
   // class UmapContainer<std::string,
   // std::pair<RegexExtendedChainable,Classifier> > matchers;
   std::unordered_map<std::string, RegexExtendedChainable> matchers;
@@ -117,4 +117,12 @@ class Matchers {
   RegexExtendedChainable operator[](const std::string& which) {
     return get_regex(which);
   };
-};
+
+
+
+
+*/};
+
+
+
+

@@ -91,32 +91,92 @@ class RegexExtendedChainable {
 };
 */
 
-
 class Regex {
   // consider making class fully immutable all-copy
+ private:
+  class Primitive;
+  class PrimitiveRepeatable;
+  class Repeatable;
+  class BasicRegex;
+
+ public:
   class Group;
   class CaptureGroup;
-  class RegexExtended;
+  class RegexPart;
   class MatchResult;
-  class Primitives;
+  class primitives;
 
-  static MatchResult match(std::string, RegexExtended);
+  static MatchResult match(std::string, BasicRegex);
 };
 
+class Regex::Group : public Regex::RegexPart {};
+class Regex::CaptureGroup : public Regex::Group {
+  // check if group
+};
 
-class Regex::Group{};
-class Regex::CaptureGroup : public Regex::Group{};
+class Regex::RegexPart : public Regex::BasicRegex {
+  std::unique_ptr<RegexPart> r_next{nullptr};
 
-class Regex::RegexExtended {
-  RegexExtended next;
+ public:
+  RegexPart() = default;
+  RegexPart(const RegexPart& other) {
+    r_next = std::make_unique<RegexPart>(*other.r_next);
+  };
 
-public:
-  RegexExtended& next(RegexExtended value_copy) {  // copying passed regex
-    next = value_copy;
-    return &next;
+  RegexPart operator=(const RegexPart& c) { return c; };
+  RegexPart& next(RegexPart value_copy) {  // copying passed regex
+    r_next = std::make_unique<RegexPart>(value_copy);
+    return *r_next;
   };
 };
 
-class Regex::MatchResult{};
-class Regex::Primitives{};
+class Regex::MatchResult {};
 
+class Regex::Repeatable {
+ private:
+  bool zero_f = false, one_f = false, many_f = false;
+
+ public:
+  Repeatable& zero() {
+    if (one_f)
+      throw std::logic_error("cant set zero, one flag already set true");
+    zero_f = true;
+    return *this;
+  };
+  Repeatable& one() {
+    if (zero_f)
+      throw std::logic_error("can't set one, zero flag alredy set true");
+    one_f = true;
+    return *this;
+  };
+  Repeatable& more() {
+    if (zero_f && one_f)
+      throw std::logic_error("cant set many, set either zero or one");
+    many_f = true;
+    return *this;
+  };
+};
+
+class Regex::Primitive : public Regex::RegexPart {
+ public:
+  Primitive(const std::string& s) : RegexPart(s){};
+};
+
+class Regex::PrimitiveRepeatable : public Regex::Primitive, public Regex::RegexPart, public Regex::Repeatable {
+  using Primitive::Primitive;
+};
+
+class Regex::primitives {
+  using R = Regex;
+
+ public:
+  static R::Primitive begin_line;
+  static R::Primitive end_line;
+  static R::PrimitiveRepeatable any;
+  static R::PrimitiveRepeatable space;
+};
+
+Regex::Primitive Regex::primitives::begin_line{"^"};
+Regex::Primitive Regex::primitives::end_line{"$"};
+Regex::PrimitiveRepeatable Regex::primitives::any{"[\\S\\s]"};
+Regex::PrimitiveRepeatable Regex::primitives::space{"\\s"};
