@@ -150,7 +150,7 @@ class Regex::Repeatable {
     return *this;
   };
   Repeatable& more() {
-    if (zero_f && one_f)
+    if (not zero_f  and  not one_f)
       throw std::logic_error("cant set many, set either zero or one");
     many_f = true;
     return *this;
