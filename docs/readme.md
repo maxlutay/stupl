@@ -8,7 +8,7 @@
 - do functions arguments need specific notation? why? which ? is '@' ok for this? or '#' ? or '_' ?
 - do functions need 'return' statement? for which purposes?
 - do functions need named return variable, optional or mandatory ?
-- do functions need "spread/rest operator" argument expansion? Syntax of specifing types for such operator? do this operator need possibility of specifing count of arguments? what about templating this operator? what language mechanism would be used?
+- do functions need "spread/rest operator" argument expansion? Syntax of specifing types for such operator? do such operator need possibility of specifing count of arguments? what about templating such operator? what language mechanism would be used?
 - do functions need multiple argument expansion option? how to distinguish between multiple expansion operators?
 - how to make pointer/reference/value copy/move passing more convenient?
 - syntax for class memory management? how to specify allocation functions? are stack memory needed at all? syntax for class construction on heap and stack ?
