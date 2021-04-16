@@ -14,7 +14,7 @@
 #include <iomanip>
 #include <ctime>
 
-int main() {
+int test() {
   std::ofstream file{"logs/testresultsn.log"};
 
   if (!file)
