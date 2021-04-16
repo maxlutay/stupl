@@ -4,7 +4,7 @@
 
 #include <string>
 
-int main() {
+int test() {
   using RP = Regex::RegexPart;
   using RCG = Regex::CaptureGroup;
   using Rp = Regex::primitives;
