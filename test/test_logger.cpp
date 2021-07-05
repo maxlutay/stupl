@@ -1,10 +1,10 @@
 
 
-#include "../Logger.hpp"
-#include "../LazyLogger.hpp"
+#include "../src/Logger.hpp"
+#include "../src/LazyLogger.hpp"
 
-#include "../LanguageUnit.hpp"
-#include "../LanguageModuleUnit.hpp"
+#include "../src/LanguageUnit.hpp"
+#include "../src/LanguageModuleUnit.hpp"
 
 #include <iostream>
 #include <fstream>
@@ -14,7 +14,7 @@
 #include <iomanip>
 #include <ctime>
 
-int main() {
+void test_logger() {
   std::ofstream file{"logs/testresultsn.log"};
 
   if (!file)
@@ -40,5 +40,7 @@ int main() {
   ll.log("lazylogger end\n");
 
   ll.log("---logs end\t", put_now_datetime(), "---\n");
+
+
 
 }

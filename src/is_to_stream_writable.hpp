@@ -2,15 +2,15 @@
 
 #include <typeinfo>
 
-template <typename S, typename T, typename = void>
+template <typename StreamType, typename TestType, typename = void>
 struct is_to_stream_writable : std::false_type {};
 
-template <typename S, typename T>
+template <typename StreamType, typename TestType>
 struct is_to_stream_writable<
-    S,
-    T,
-    std::void_t<decltype(std::declval<S&>() << std::declval<T>())> >
+    StreamType,
+    TestType,
+    std::void_t<decltype(std::declval<StreamType&>() << std::declval<TestType>())> >
     : std::true_type {};
 
 
-template <typename S, typename T> constexpr bool is_to_stream_writable_v =  is_to_stream_writable<S,T>::value; 
+template <typename StreamType, typename TestType> constexpr bool is_to_stream_writable_v =  is_to_stream_writable<StreamType,TestType>::value; 

@@ -1,10 +1,9 @@
 #pragma once
 
-#include <regex>
 #include <string>
 #include <unordered_map>
 
-#include "RegexExtendedChainable.hpp"
+#include "Regex/Regex.hpp"
 
 class Matchers {
 /* private:
@@ -89,8 +88,8 @@ class Matchers {
     emplace("line comment //", R::any.once().more().then("//").then(
                                    R::any.once().more) "^(.*)//([\S\s]*)$");
     emplace("line comment #", "^(.*)#([\S\s]*)$");
-    emplace("multiline comment /* start", "(.*)/\\*(.*)");
-    emplace("multiline comment */ end", "(.*)\\*/(.*)");
+    emplace("multiline comment  start", "");
+    emplace("multiline comment / end", "");
   };
 
   Matchers& emplace(const std::string& name, const RegexExtendedChainable& r) {
