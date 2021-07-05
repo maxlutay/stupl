@@ -7,6 +7,7 @@ Should:
  * declared as 
 ```
 module <name>
+
 end
 ```
 
@@ -35,22 +36,22 @@ end
 
 
 ```
-//file SomeModuleName.silang
+//file SomeModuleName.stupl
 
 
 module SomeModuleName
 
 type Foo
 
-end #Foo
+end ;Foo
 
 
 type Bar
 
-end #Bar
+end ;Bar
 
 
-end #SomeModuleName
+end ;SomeModuleName
 
 
 
@@ -59,13 +60,13 @@ module MyModuleName
 
 type MyTypeName is
 class
-end #MyTypeName
+end ;MyTypeName
 
 fn MyFnName(@myarg1:Foo ) -> :SomeModuleName.
-end #MyFnName
+end ;MyFnName
 
 
-end #MyModuleName
+end ;MyModuleName
 
 
 ```

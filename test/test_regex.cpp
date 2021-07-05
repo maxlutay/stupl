@@ -28,5 +28,10 @@ int test_regex() {
   auto result0 = Regex::match_first(test_s0, rgx);  // exception or fail
 
   std::string test_s1{"        module     hello ; //bye"};
+<<<<<<< HEAD
   auto result1 = Regex::match_first(test_s1, rgx);  // ok -> hello
 };
+=======
+  auto result1 = Regex::match(test_s1, rgx);  // ok -> hello
+};
+>>>>>>> d4fe7edd0ae22e1341f3110ed43bc2fc9c8e9950

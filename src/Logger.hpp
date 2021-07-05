@@ -21,12 +21,7 @@ class Logger {
   Logger& log(Ts... to_log) {
 
 
-    //static_assert( (... and (std::is_convertible_v<Ts, std::string> or std::is_constructible_v<std::string, Ts>) ) ,"custom type constraints");
-    //( (buffer_from << std::to_string{to_log} ) , ... ) ;
-    // replaced by more portable and correct variant 
-
-
-    static_assert( (... and (is_to_stream_writable_v<decltype(buffer_from), Ts>))  ,"custom type constraints");
+    static_assert( (... and (is_to_stream_writable_v<decltype(buffer_from), Ts>))  ,"custom type constraints in Logger.log");
 
 
     ( (buffer_from << to_log ) , ... ) ;

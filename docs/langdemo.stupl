@@ -4,22 +4,21 @@ module AirplaneSystem
 
 
 
-fn main()
+fn main() -> :PositiveInteger
 
 
+  myplane:Airplane = (fn () -> :Airplane
+    wheelslayout = WheelsLayout()
+    mylandingsystem = WheelsLandingSystem(wheelslayout)
+    myengine = EngineSystem()
+    myfilghtcontrols = FlightControlSystem()
+    pilotingcontrols = PilotControlsSystem.Remote_Piloting_System() 
 
+    return Airplane.default(mylandingsystem, myengine, myfilghtcontrols, pilotingcontrols);
 
-    myplane:Airplane = (fn () -> :Airplane
-        wheelslayout = WheelsLayout();
-        mylandingsystem = WheelsLandingSystem(wheelslayout);
-        myengine = EngineSystem();
-        myfilghtcontrols = FlightControlSystem();
-        pilotingcontrols = PilotControlsSystem.Remote_Piloting_System() ;
+  end)()
 
-        return Airplane.default(mylandingsystem, myengine, myfilghtcontrols, pilotingcontrols);
-
-    end)()
-
+return 0
 
 end
 
@@ -60,25 +59,39 @@ end
 
 
 
-type Pair{ ElementType } is
-class < Tuple{count=2,ElementType}
-    fn .left() -> :ElementType 
+type Pair{ T1, T2 } is
+class < Tuple{T1,T2}
+    fn .left() -> :T1 
         return Tuple.first()
     end
 
-    fn .right() -> :ElementType
+    fn .right() -> :T2
         return Tuple.last()
     end
 end
 
-
-type Tuple { count:PositiveInteger, element_type:Any } is
+;; need templates variadic arguments specification
+;;following not relevant
+;/
+type Tuple { ...element_type:Any } is
 class
-    fn .default() -> :Tuple
+    {
+    first():element_type.first().type
+      return 
+    end
+    last():element_type.last().type
     
     end
+    
+    at(@i:PositiveInteger) -> :element_type.each()
+    
+    }
+    
+    fn .default() -> :Tuple
+      
+    end
 end
-
+/;
 
 
 type WheelGroup{n_of_wheels} is Tuple{count=n_of_wheels, Wheel} 

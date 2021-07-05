@@ -1,3 +1,4 @@
+```
 type <type name> { <template argument1 name>, <template argument2 name> } is
 <type specification>
 
@@ -16,3 +17,5 @@ end
 type Whatter {T} is
 fn () -> :T
 end
+
+```

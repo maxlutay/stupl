@@ -41,6 +41,10 @@ void test_logger() {
 
   ll.log("---logs end\t", put_now_datetime(), "---\n");
 
+<<<<<<< HEAD
 
 
 }
+=======
+}
+>>>>>>> d4fe7edd0ae22e1341f3110ed43bc2fc9c8e9950
