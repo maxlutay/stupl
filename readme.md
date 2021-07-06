@@ -1,11 +1,15 @@
+
+# STUPL
 Statically Typed Universal Programming Languauge
 
 
 
 
-#Compiling
+# Compiling
+
 `make`
 
-#Testing
+# Testing
+
 `make test`
 
