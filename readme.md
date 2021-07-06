@@ -5,11 +5,18 @@ Statically Typed Universal Programming Languauge
 
 
 
-## Compiling
 
+## Building from source
+### Requirments
+
+- clang with c++17 support
+- make/gnumake
+
+### Compiling
 `make`
 
-## Testing
+
+### Testing
 
 `make test`
 
