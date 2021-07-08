@@ -50,6 +50,7 @@
 
 **A**:  _I do not like something about `/**/`. Even if nesting would be supported. Probably only 1 line comments `;` will be supported. 
 
+
 - **Q**: do special syntax for interfaces needed? 
 
 **A**: _Probably not_
@@ -62,7 +63,7 @@
 
 
 
-- **Q**: what about multiple inheritance? if it will be supported, what is the way for 
+- **Q**: what about multiple inheritance? if it will be supported, what is the way for managing memory consistency ? specifying base class ? what is syntax for it ?
 
 - **Q**:do templates need inheritance hierarchy? like `<| classname` for 'type that inherits from classname'? 
 
