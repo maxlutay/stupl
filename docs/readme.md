@@ -48,21 +48,26 @@
 
 - **Q**: do we need multiline comment? syntax for multiline comment using `;`? or use '/\*\*/'? what about nested comments?
 
-**A**: _I do not like something about `/**/`. Even if nesting would be supported. Probably only 1 line comments `;` will be supported. 
+**A**:  _I do not like something about `/**/`. Even if nesting would be supported. Probably only 1 line comments `;` will be supported. 
 
 - **Q**: do special syntax for interfaces needed? 
 
 **A**: _Probably not_
 
 
-- **Q**: do class inheritance need `public/protected/private` specifiers?
+- **Q**: do declaration of inheritance need `public/protected/private` specifiers?
 
 **A**: _I think more yes than no_
 
-- **Q**:do templates need inheritance hierarchy? like `<| classname`? 
+- **Q**: what about multiple inheritance? if it will be supported, what is the way for 
+
+
+- **Q**:do templates need inheritance hierarchy? like `<| classname` for 'type that inherits from classname'? 
 
 - **Q**: would module system implement export? what export synatax ?
-- 
+
+- **Q**: do functions should be separate first-order 'entity' or be class with apply method overloaded ? should functions inherit from some 'god parent type' ? should classes, enums, unions etc. inherit from 'god parent type' too ?  
+
 - **Q**:?todo
 
 
