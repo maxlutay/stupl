@@ -43,10 +43,12 @@
 
 - **Q**: syntax for 1 line comment? only `;`? what about `//` and `#`? 
 
-**A**: _`;comment` seems to be the best choice for 1line comment, all after ';' ignored till line end_
+**A**: _`;comment` seems to be the best choice for 1line comment, all after `;` ignored till line end_
 
 
-- **Q**: do we need multiline comment? syntax for multiline comment using ';'? or use '/\*\*/'? what about nested comments?
+- **Q**: do we need multiline comment? syntax for multiline comment using `;`? or use '/\*\*/'? what about nested comments?
+
+**A**: _I do not like something about `/**/`. Even if nesting would be supported. Probably only 1 line comments `;` will be supported. 
 
 - **Q**: do special syntax for interfaces needed? 
 
@@ -54,6 +56,7 @@
 
 
 - **Q**: do class inheritance need `public/protected/private` specifiers?
+
 **A**: _I think more yes than no_
 
 - **Q**:do templates need inheritance hierarchy? like `<| classname`? 
