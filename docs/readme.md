@@ -1,9 +1,9 @@
 
+ ## this folder needs rework !!! 
+ #### only draft presented
 
- ### docs need rework !!!
 
-
-#### current design topics and questions(not in order):
+## current design topics and questions(not in order):
 
 - **Q**:do functions arguments need specific notation? why? which ? is '@' ok for this? or '#' ? or '\_'?
 
@@ -15,12 +15,12 @@
 
 
 - **Q**: do functions need named return variable, optional or mandatory ?
-- 
+
 **A**: _IMO functions need return variable (which will completely eliminate return statement). Optional will make some default return type for all functions. Mandatory will be a source of inconvinience for programmers._
 
 
 - **Q**: do functions need "spread/rest operator" argument expansion? Syntax of specifing types for such operator? do such operator need possibility of specifing count of arguments? what about templating such operator? what language mechanism would be used?
-- 
+
 **A**: _Probably yes, such operator is useful in Ecmascript. Not sure, but it should follow template style. Yes, if multiple argument expansion would be implemented. with templates. Probably templates, not macro. _
 
 
@@ -57,10 +57,12 @@
 
 - **Q**: do declaration of inheritance need `public/protected/private` specifiers?
 
+
 **A**: _I think more yes than no_
 
-- **Q**: what about multiple inheritance? if it will be supported, what is the way for 
 
+
+- **Q**: what about multiple inheritance? if it will be supported, what is the way for 
 
 - **Q**:do templates need inheritance hierarchy? like `<| classname` for 'type that inherits from classname'? 
 
