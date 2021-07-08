@@ -37,7 +37,7 @@
 
 - **Q**: syntax for private/public class memebers? maybe use templates annotations? what about groups of variables? grouping templates? public interfaces? i do not like to add special syntax like in c++, c#, java etc.
 
-- **Q**: syntax for templates? `%//%`? `#[]`? `#[]#`? `@{}`? 
+- **Q**: syntax for templates? `%//%`? `#[]`? `#[]#`? `@{}`? `%{}` ? 
 
 - **Q**: syntax for multithreading and atomics? templates again? multithreaded memory management syntax?
 
